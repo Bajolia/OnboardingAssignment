@@ -44,20 +44,17 @@ public class QuatationService {
         return allInputByMakeModel;
     }
 
-//    public List<Quotation> getPremiums(Profile profile )
-    public List<Quotation> getPremiums(String requestId){
+    public List<Quotation> getPremiums(Profile profile ){
         List<Quotation> allPremiums = new ArrayList<>();
-//        Profile profile1 = profileService.getProfile();
-        Profile profile = profileRepo.findByRequestId(requestId);
+//        Profile profile = profileRepo.findByRequestId(requestId);
         String vertical = profile.getVertical();
         String make = profile.getMake();
         String model = profile.getModel();
-//        String requestId = profile.getRequestId();
+        String requestId = profile.getRequestId();
         if(requestId == null){
             System.out.println("requestId is null");
             return allPremiums;
         }
-
         List<Input> allInputByMakeModel =  inputRepo.findAllByMakeAndModel(make,model);
         for(Input input : allInputByMakeModel){
             List<Insurer> insurers = input.getSupportedInsurer();
@@ -68,7 +65,7 @@ public class QuatationService {
                 insurer.setId(resultId1);
                 String insurerName = insurer.getName();
                 String insurerPremuum = insurer.getValue();
-                Quotation quotation1 = new Quotation(requestId,profile, resultId1, insurerName, insurerPremuum);
+                Quotation quotation1 = new Quotation(requestId, resultId1, insurerName, insurerPremuum);
                 allPremiums.add(quotation1);
                 quatationRepo.save(quotation1);
             }

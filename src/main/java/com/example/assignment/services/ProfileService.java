@@ -24,8 +24,8 @@ public class ProfileService {
         System.out.println(requestId);
         profile.setRequestId(requestId);
         profileRepo.save(profile);
-        quatationService.getPremiums(requestId);
-//        quatationService.getPremiums(profile);
+//        quatationService.getPremiums(requestId);
+        quatationService.getPremiums(profile);
         return requestId;
     }
 

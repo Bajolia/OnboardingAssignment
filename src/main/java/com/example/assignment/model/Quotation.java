@@ -2,19 +2,18 @@ package com.example.assignment.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 
 @Document(collection = "Result")
 public class Quotation {
     private String requestId;
-    private Profile profile;
+//    private Profile profile;
     private String resultId;
     private  String insurerName;
     private String insurerPremium;
 
-    public Quotation(String requestId, Profile profile, String resultId, String insurerName, String insurerPremium) {
+    public Quotation(String requestId, String resultId, String insurerName, String insurerPremium) {
         this.requestId = requestId;
-        this.profile = profile;
+//        this.profile = profile;
         this.resultId = resultId;
         this.insurerName = insurerName;
         this.insurerPremium = insurerPremium;
@@ -28,13 +27,13 @@ public class Quotation {
         this.requestId = requestId;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
+//    public Profile getProfile() {
+//        return profile;
+//    }
+//
+//    public void setProfile(Profile profile) {
+//        this.profile = profile;
+//    }
 
     public String getResultId() {
         return resultId;

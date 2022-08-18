@@ -7,9 +7,8 @@ import com.example.assignment.repos.ProfileRepo;
 import com.example.assignment.repos.QuatationRepo;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import java.util.Random;
 
 @Service
@@ -18,9 +17,6 @@ public class CheckoutService {
     private ProfileRepo profileRepo;
     private InputRepo inputRepo;
     private QuatationRepo quatationRepo;
-
-    private CheckoutResponce checkoutResponce;
-//    private  ProfileService profileService;
 
     public CheckoutService(CheckoutRepo checkoutRepo, ProfileRepo profileRepo, InputRepo inputRepo, QuatationRepo quatationRepo) {
         this.checkoutRepo = checkoutRepo;
@@ -46,48 +42,15 @@ public class CheckoutService {
         return checkoutRepo.findByRequestId(requestId);
     }
 
-
-    public Map<String,String> getAllDetails(String requestId) {
-
-//        Profile profile = profileService.getProfile(requestId);
-
-
-
-        Map<String,String> allCustomerDetails= new HashMap<>();
-        if(requestId == null){
-            allCustomerDetails.put("Error : ", "RequestId is Null");
-        }
-
+    public CheckoutResponce getAllDetails(String requestId) {
         Profile profile = profileRepo.findByRequestId(requestId);
-        String vertical = profile.getVertical();
-        String make = profile.getMake();
-        String model = profile.getModel();
         Checkout checkout = checkoutRepo.findByRequestId(profile.getRequestId());
         Quotation quotation = quatationRepo.findByResultId(checkout.getResultId());
-//
-//        Checkout checkout = checkoutRepo.findByRequestId(requestId);
-        String checkoutName = checkout.getName();
-        String checkoutEmail = checkout.getEmail();
-        String checkoutPhone = checkout.getPhone();
-        String resultId = checkout.getResultId();
-
-        System.out.println(resultId);
-        if(resultId == null){
-            allCustomerDetails.put("Error : ", "ResultId is Null");
-        }
-//        Quotation quotation = quatationRepo.findByResultId(resultId);
         String insurerName = quotation.getInsurerName();
         String insurerPremium = quotation.getInsurerPremium();
-//
-        allCustomerDetails.put("vertical", vertical);
-        allCustomerDetails.put("make", make);
-        allCustomerDetails.put("model", model);
-        allCustomerDetails.put("insurerName", insurerName);
-        allCustomerDetails.put("insurerPremium", insurerPremium);
-        allCustomerDetails.put("resultId", resultId);
-        allCustomerDetails.put("checkoutName", checkoutName);
-        allCustomerDetails.put("checkoutEmail", checkoutEmail);
-        allCustomerDetails.put("checkoutPhone", checkoutPhone);
-        return allCustomerDetails;
+        Insurer insurer = new Insurer(requestId,insurerName,insurerPremium);
+
+        CheckoutResponce checkoutResponce = new CheckoutResponce(profile,insurer,checkout);
+        return checkoutResponce;
     }
 }
